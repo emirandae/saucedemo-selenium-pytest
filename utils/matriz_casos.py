@@ -140,10 +140,10 @@ def generar():
     _encabezados(
         ejecucion,
         ["Caso", "Prueba automatizada", "Resultado", "Duración (s)", "Verificaciones", "Cumplen", "Mensaje", "Evidencia"],
-        [8, 52, 11, 11, 13, 10, 60, 58],
+        [8, 52, 11, 11, 13, 10, 60, 76],
     )
     orden = {c["id"]: i for i, c in enumerate(CASOS)}
-    resultados = sorted(resultados, key=lambda r: (orden.get(r["caso"], 99), r["prueba"]))
+    resultados = sorted(resultados, key=lambda r: orden.get(r["caso"], 99))  # conserva el orden de ejecución
     for i, r in enumerate(resultados, start=2):
         relleno = VERDE if r["resultado"] == "Aprobada" else ROJO if r["resultado"] == "Fallida" else None
         _fila(
@@ -226,6 +226,15 @@ def generar():
     resumen["B16"].number_format = "0.00"
     resumen["A18"] = "Fuente: reports/resultados.json generado por pytest en la última ejecución."
     resumen["A18"].font = Font(name="Arial", size=9, italic=True)
+
+    # Configuración de impresión: horizontal y ajustada al ancho de la página
+    for hoja in libro.worksheets:
+        hoja.page_setup.orientation = "landscape"
+        hoja.page_setup.paperSize = hoja.PAPERSIZE_LETTER
+        hoja.sheet_properties.pageSetUpPr.fitToPage = True
+        hoja.page_setup.fitToWidth = 1
+        hoja.page_setup.fitToHeight = 0
+        hoja.print_title_rows = "1:1" if hoja.title != "Resumen" else None
 
     SALIDA.parent.mkdir(exist_ok=True)
     libro.save(SALIDA)
