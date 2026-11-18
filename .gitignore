@@ -1,0 +1,14 @@
+# Entorno virtual y cachés de Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Resultados generados en cada ejecución
+reports/
+
+# Archivos del sistema y del editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
