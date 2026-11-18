@@ -1,6 +1,7 @@
 import time
 
 from selenium.common.exceptions import ElementClickInterceptedException
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
 from pages.base_page import BasePage, data_test
@@ -20,7 +21,8 @@ class InventoryPage(BasePage):
     ORDENAR = data_test("product-sort-container")
     INSIGNIA_CARRITO = data_test("shopping-cart-badge")
     ENLACE_CARRITO = data_test("shopping-cart-link")
-    ABRIR_MENU = data_test("open-menu")
+    # El ícono «open-menu» queda cubierto por el botón del menú; se hace clic en el botón.
+    ABRIR_MENU = (By.ID, "react-burger-menu-btn")
     CERRAR_SESION = data_test("logout-sidebar-link")
 
     def esperar_carga(self):

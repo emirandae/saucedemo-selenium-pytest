@@ -26,6 +26,10 @@ def _opciones_chromium(opciones, headless):
     opciones.add_argument("--disable-notifications")
     opciones.add_argument("--disable-features=PasswordLeakDetection")
     opciones.add_experimental_option("prefs", _PREFS_SIN_GESTOR_CONTRASENAS)
+    # En contenedores Linux de integración continua (usuario root) Chrome requiere estas banderas.
+    if hasattr(os, "geteuid") and os.geteuid() == 0:
+        opciones.add_argument("--no-sandbox")
+        opciones.add_argument("--disable-dev-shm-usage")
     return opciones
 
 
